@@ -1,0 +1,48 @@
+{
+  "name": "tnj-runkeeper-worker",
+  "version": "1.0.0",
+  "description": "tnj main Worker",
+  "main": "app.js",
+  "scripts": {
+    "test": ""
+  },
+  "private": true,
+  "subdomain": "tnj",
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tampanodejs/tnj-runkeeper-worker"
+  },
+  "author": "352media",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tampanodejs/tnj-runkeeper-worker/issues"
+  },
+  "homepage": "https://github.com/tampanodejs/tnj-runkeeper-worker",
+  "dependencies": {
+    "352-wascally": "^0.2.5",
+    "MD5": "^1.2.1",
+    "body-parser": "^1.10.1",
+    "chai": "^1.10.0",
+    "express": "^4.10.7",
+    "gnip": "^0.2.1",
+    "gnip-reader": "^0.2.0",
+    "isvalid": "^0.2.3",
+    "lodash": "^3.1.0",
+    "method-override": "^2.3.1",
+    "mocha": "^2.1.0",
+    "moment": "^2.8.4",
+    "mongodb": "^1.4.28",
+    "mongoose": "^4.1.0",
+    "newrelic": "^1.14.5",
+    "q": "^1.1.2",
+    "redis": "^0.12.1",
+    "request": "^2.51.0",
+    "twit": "^1.1.18",
+    "wascally": "^0.2.0-7",
+    "winston": "^1.0.0"
+  },
+  "devDependencies": {}
+}

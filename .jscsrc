@@ -1,0 +1,11 @@
+{
+  "preset": "google",
+  "fileExtensions": [".js", "jscs"],
+  "excludeFiles": [
+    "node_modules/**",
+    "bower_components/**",
+    "client/content/vendor/**",
+    "**/*.spec.js",
+    "**/*.min.js"
+  ]
+}
