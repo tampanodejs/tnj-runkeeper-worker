@@ -7,7 +7,7 @@ var rabbit = global.rabbit;
 
 module.exports = {
   index: index,
-  fitness_activities: fitnessActivities
+  fitness_activities: fitness_activities
 };
 
 /**
@@ -15,11 +15,11 @@ module.exports = {
  * @param message
  * @param cb
  */
-function findUser(message, cb) {
+function findUserOAuthToken(message, cb) {
   var data = {
     payload: {
       query_params: message.body.payload.query_params,
-      resource: '/user',
+      resource: 'user',
       meta_data: message.body.payload.meta_data
     },
     transaction_id: message.body.transaction_id,
@@ -34,7 +34,10 @@ function findUser(message, cb) {
   }).then(function(final) {
     logger.debug('Received message from tnj.main.get: ' + JSON.stringify(final.body));
     final.ack();
-    cb(final.body);
+    var runKeeperOAuthToken = _.find(final.body.payload[0].oauth_tokens, function(oAuthToken) {
+      return oAuthToken.type === 'runkeeper';
+    });
+    cb(final.error, runKeeperOAuthToken);
   });
 }
 
@@ -44,8 +47,25 @@ function findUser(message, cb) {
  */
 function index(message) {
   logger.debug('GET /tnj/runkeeper: ' + JSON.stringify(message.body));
-  findUser(message, function(response) {
+  findUserOAuthToken(message, function processIndex(err, oAuthToken) {
+    if (err) {
+      handler.error(err, message);
+    } else {
+      var options = {
+        url: 'https://api.runkeeper.com/user',
+        headers: {
+          'Authorization': 'Bearer ' + oAuthToken.token
+        }
+      };
 
+      request(options, function processRunkeeperRequest(error, response, body) {
+        if (error) {
+          handler.error(err, message);
+        } else {
+          handler.success(JSON.parse(body), message);
+        }
+      });
+    }
   });
 }
 
@@ -55,7 +75,24 @@ function index(message) {
  */
 function fitness_activities(message) {
   logger.debug('GET /tnj/runkeeper/fitness_activities: ' + JSON.stringify(message.body));
-  findUser(message, function(response) {
+  findUserOAuthToken(message, function processFitnessActivities(err, oAuthToken) {
+    if (err) {
+      handler.error(err, message);
+    } else {
+      var options = {
+        url: 'https://api.runkeeper.com/fitnessActivities?pageSize=100',
+        headers: {
+          'Authorization': 'Bearer ' + oAuthToken.token
+        }
+      };
 
+      request(options, function processRunkeeperRequest(error, response, body) {
+        if (error) {
+          handler.error(err, message);
+        } else {
+          handler.success(JSON.parse(body), message);
+        }
+      });
+    }
   });
 }
