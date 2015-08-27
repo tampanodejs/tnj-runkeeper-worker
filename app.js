@@ -17,19 +17,19 @@ config.init(['logger', 'mongo', 'rabbitmq', 'message-handler'], function() {
    * This handler is for handling all of the standard GET requests for the main worker
    */
 
-  var getHandler = rabbit.handle('tnj.main.get', function(message) {
+  var getHandler = rabbit.handle('tnj.runkeeper.get', function(message) {
     main.get(message);
   });
 
-  var postHandler = rabbit.handle('tnj.main.post', function(message) {
+  var postHandler = rabbit.handle('tnj.runkeeper.post', function(message) {
     main.post(message);
   });
 
-  var putHandler = rabbit.handle('tnj.main.put', function(message) {
+  var putHandler = rabbit.handle('tnj.runkeeper.put', function(message) {
     main.put(message);
   });
 
-  var destroyHandler = rabbit.handle('tnj.main.destroy', function(message) {
+  var destroyHandler = rabbit.handle('tnj.runkeeper.destroy', function(message) {
     main.destroy(message);
   });
 

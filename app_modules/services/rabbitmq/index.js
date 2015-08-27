@@ -24,33 +24,33 @@ function init() {
     ],
     queues: [
       {
-        name: 'tnj.main',
+        name: 'tnj.runkeeper',
         limit: 100,
         queueLimit: 100000,
         subscribe: true,
         durable: true,
         deadLetterExchange: 'tnj-deadLetter.' + process.env.NODE_ENV,
-        deadLetterRoutingKey: 'tnj.main.rejected'
+        deadLetterRoutingKey: 'tnj.runkeeper.rejected'
       },
       {
-        name: 'tnj.main.rejected',
+        name: 'tnj.runkeeper.rejected',
         subscribe: false,
         messageTtl: 3600000
       }
     ],
     bindings: [
       {
-        exchange: 'tnj.' + process.env.NODE_ENV, target: 'tnj.main',
+        exchange: 'tnj.' + process.env.NODE_ENV, target: 'tnj.runkeeper',
         keys: [
-          'tnj.main.get',
-          'tnj.main.post',
-          'tnj.main.put',
-          'tnj.main.destroy'
+          'tnj.runkeeper.get',
+          'tnj.runkeeper.post',
+          'tnj.runkeeper.put',
+          'tnj.runkeeper.destroy'
         ]
       },
       {
-        exchange: 'tnj-deadLetter.' + process.env.NODE_ENV, target: 'tnj.main.rejected',
-        keys: ['tnj.main.rejected']
+        exchange: 'tnj-deadLetter.' + process.env.NODE_ENV, target: 'tnj.runkeeper.rejected',
+        keys: ['tnj.runkeeper.rejected']
       }
     ]
   };
