@@ -36,7 +36,7 @@ function init(services, cb) {
     });
   }
   var int = setInterval(function() {
-    if (global.logger && global.rabbitInitialized) {
+    if (global.logger && global.rabbit) {
       initialized();
     }
   }, 100);

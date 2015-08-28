@@ -1,9 +1,6 @@
 'use strict';
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 global.rabbit = require('352-wascally');
-var rabbit = global.rabbit;
-var logger = global.logger;
-var main = require('../../main');
 
 module.exports = {
   init: init
@@ -11,7 +8,7 @@ module.exports = {
 
 function init() {
 
-  var config = {
+  global.rabbitConfig = {
     connection: {
       user: process.env.AMQP_USER || null,
       pass: process.env.AMQP_PASSWORD || null,
@@ -55,41 +52,4 @@ function init() {
       }
     ]
   };
-
-  /*
-   ** Initialize queue handlers
-   */
-
-  /*
-   * This handler is for handling all of the standard GET requests for the main worker
-   */
-
-  var getHandler = rabbit.handle('tnj.runkeeper.get', function(message) {
-    main.get(message);
-  });
-
-  var postHandler = rabbit.handle('tnj.runkeeper.post', function(message) {
-    main.post(message);
-  });
-
-  var putHandler = rabbit.handle('tnj.runkeeper.put', function(message) {
-    main.put(message);
-  });
-
-  var destroyHandler = rabbit.handle('tnj.runkeeper.destroy', function(message) {
-    main.destroy(message);
-  });
-
-  /*
-   * This handler is for messages that are sent to but not handled by this worker
-   */
-
-  var unhandledMessageHandler = rabbit.onUnhandled(function(message) {
-    message.body.rejection_reason = 'No handler available for this message';
-    message.reply(message.body);
-  });
-
-  rabbit.configure(config).done(function() {
-    logger.info('Connection to RabbitMQ established');
-  });
 }
