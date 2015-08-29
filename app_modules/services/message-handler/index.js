@@ -3,7 +3,6 @@
 var config = require('../../config/environment');
 var logger = global.logger;
 var rabbit = global.rabbit;
-var audit = global.audit;
 
 module.exports = {
   init: init
